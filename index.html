@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio hotel</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
+      integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div
+        class="modal fade"
+        id="modal1"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Éxito</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Check-in realizado con éxito
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+              >
+                Aceptar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 bg-light p-3 mx-auto">
+        <div class="col-2 mt-3">
+          <nav>
+            <div class="btn-group-vertical">
+              <button
+                id="button-to-room-list"
+                class="btn btn-info active text-left"
+              >
+                <i class="fas fa-bed"></i>
+                Habitaciones
+              </button>
+              <button
+                id="button-to-check-in"
+                class="btn btn-info inactive text-left"
+              >
+                <i class="fas fa-user-plus"></i>
+                Check-in
+              </button>
+              <button
+                id="button-to-check-out"
+                class="btn btn-info inactive text-left"
+              >
+                <i class="fas fa-user-minus"></i>
+                Check-out
+              </button>
+              <button
+                id="button-to-change-rooms"
+                class="btn btn-info inactive text-left"
+                disabled
+              >
+                Cambio habitación
+              </button>
+            </div>
+          </nav>
+          <!-- <div id="hotel-stats">
+            <ul>
+              <li>
+                Capacidad actual:
+                <p id="current-capacity"></p>
+              </li>
+              <li>
+                Habitaciones disponibles:
+                <p id="current-avaliable-rooms"></p>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+        <div class="col-10">
+          <section id="section-room-list" class="d-none">
+            <h2>Listado de habitaciones:</h2>
+            <table id="table-all-rooms" class="table table-small">
+              <thead>
+                <th class="text-left">Id.</th>
+                <th class="text-center">Nº de camas</th>
+                <th class="text-center">Huésped</th>
+                <th class="text-center">Disponible</th>
+              </thead>
+              <tbody id="all-rooms"></tbody>
+            </table>
+          </section>
+          <section id="section-check-in" class="active-section">
+            <h2>Registro de huéspedes:</h2>
+            <form id="form-check-in">
+              <div class="form-group p-3">
+                <fieldset
+                  id="guest-1"
+                  class="border border-success rounded-lg my-2 p-3"
+                >
+                  <h3 class="mb-3"><i class="fas fa-user"></i> Huésped 1:</h3>
+                  <div class="from-group row mb-2">
+                    <div class="col">
+                      <label for="guest-name-1">Nombre:</label>
+                      <input
+                        type="text"
+                        id="guest-1-name"
+                        placeholder="Nombre"
+                        class="guest-name form-control"
+                        required
+                      />
+                    </div>
+                    <div class="col">
+                      <label for="guest-1-last-name">Apellido:</label>
+                      <input
+                        type="text"
+                        id="guest-1-last-name"
+                        placeholder="Apellido"
+                        class="guest-lastname form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-auto">
+                      <label for="guest-1-dni">DNI/NIF:</label>
+                      <input
+                        type="text"
+                        id="guest-1-dni"
+                        placeholder="12345678A"
+                        class="guest-dni form-control"
+                        required
+                      />
+                    </div>
+                    <div class="col-auto">
+                      <label for="guest-1-age">Edad:</label>
+                      <input
+                        type="number"
+                        id="guest-1-age"
+                        class="guest-age form-control"
+                        min="18"
+                        max="123"
+                        required
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+                <button id="add-new-guest" class="btn btn-outline-success">
+                  Añadir huésped <i class="fas fa-user-plus"></i>
+                </button>
+                <button id="delete-last-guest" class="btn btn-outline-danger">
+                  Borrar huésped <i class="fas fa-user-minus"></i>
+                </button>
+
+                <div class="form-group border bg-light rounded-lg my-2 p-3">
+                  <div class="row">
+                    <div class="form-group col-auto mx-auto">
+                      <label for="family-tlf">Teléfono:</label>
+                      <input
+                        type="number"
+                        id="family-tlf"
+                        placeholder="999 12 34 56"
+                        class="form-control"
+                        required
+                      />
+                    </div>
+                    <div class="form-group col-auto mx-auto">
+                      <label for="check-in-date">Fecha de llegada:</label
+                      ><input
+                        type="date"
+                        id="check-in-date"
+                        class="form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <input
+                    type="submit"
+                    value="Asignar habitaciones"
+                    class="btn btn-lg btn-warning"
+                  />
+                </div>
+              </div>
+            </form>
+          </section>
+          <section id="section-assign-room" class="d-none">
+            <h2 class="mb-2">Seleccionar habitaciones:</h2>
+            <table id="table-avaliable-rooms" class="table table-hover">
+              <thead>
+                <th>Id.</th>
+                <th>Nº de camas</th>
+                <th class="text-center">Precio/noche (€)</th>
+                <th class="text-center">Seleccionar</th>
+              </thead>
+              <tbody id="list-avaliable-rooms">
+                <tr id="room-101" class="d-none">
+                  <th scope="row">
+                    <label for="room-101-checkbox">101</label>
+                  </th>
+                  <td id="room-101-capacity">2</td>
+                  <td id="room-101-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-101-checkbox"
+                      value="101"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-102" class="d-none">
+                  <th scope="row">
+                    <label for="room-102-checkbox">102</label>
+                  </th>
+                  <td id="room-102-capacity">2</td>
+                  <td id="room-102-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-102-checkbox"
+                      value="102"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-103" class="d-none">
+                  <th scope="row">
+                    <label for="room-103-checkbox">103</label>
+                  </th>
+                  <td id="room-103-capacity">2</td>
+                  <td id="room-103-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-103-checkbox"
+                      value="103"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-104" class="d-none">
+                  <th scope="row">
+                    <label for="room-104-checkbox">104</label>
+                  </th>
+                  <td id="room-104-capacity">3</td>
+                  <td id="room-101-price" class="text-center">75</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-104-checkbox"
+                      value="104"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-105" class="d-none">
+                  <th scope="row">
+                    <label for="room-105-checkbox">105</label>
+                  </th>
+                  <td id="room-105-capacity">1</td>
+                  <td id="room-105-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-105-checkbox"
+                      value="105"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-201" class="d-none">
+                  <th scope="row">
+                    <label for="room-201-checkbox">201</label>
+                  </th>
+                  <td id="room-201-capacity">2</td>
+                  <td id="room-201-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-201-checkbox"
+                      value="201"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-202" class="d-none">
+                  <th scope="row">
+                    <label for="room-202-checkbox">202</label>
+                  </th>
+                  <td id="room-202-capacity">2</td>
+                  <td id="room-202-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-202-checkbox"
+                      value="202"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-203" class="d-none">
+                  <th scope="row">
+                    <label for="room-203-checkbox">203</label>
+                  </th>
+                  <td id="room-203-capacity">2</td>
+                  <td id="room-203-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-203-checkbox"
+                      value="203"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-204" class="d-none">
+                  <th scope="row">
+                    <label for="room-204-checkbox">204</label>
+                  </th>
+                  <td id="room-204-capacity">3</td>
+                  <td id="room-204-price" class="text-center">75</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-204-checkbox"
+                      value="204"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+                <tr id="room-205" class="d-none">
+                  <th scope="row">
+                    <label for="room-205-checkbox">205</label>
+                  </th>
+                  <td id="room-205-capacity">1</td>
+                  <td id="room-205-price" class="text-center">50</td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      id="room-205-checkbox"
+                      value="205"
+                      class="check-rooms"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row">
+              <div class="col-4 d-flex">
+                <p class="mr-3">Número de huéspedes:</p>
+                <p id="family-total"></p>
+              </div>
+              <div class="col-4 d-flex">
+                <p class="mr-3">Camas asignadas:</p>
+                <p id="assigned-beds"></p>
+              </div>
+              <div class="col-4 d-flex">
+                <p class="mr-3">Huéspedes sin cama asignada:</p>
+                <p id="members-left-to-room"></p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button
+                id="finish-check-in"
+                class="btn btn-lg btn-success"
+                disabled
+              >
+                Finalizar Registro
+              </button>
+            </div>
+          </section>
+
+          <section id="section-guest-details" class="d-none">
+            <h2>Datos de los huéspedes:</h2>
+            <form id="form-family-data">
+              <div class="row">
+                <div class="col-auto">
+                  <div class="form-group row">
+                    <label for="show-id-family" class="col-auto col-form-label"
+                      >Id. :</label
+                    >
+                    <div class="col-auto">
+                      <input
+                        type="text"
+                        readonly
+                        class="form-control"
+                        id="show-id-family"
+                        value="id"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="form-group row">
+                    <label
+                      for="show-phone-family"
+                      class="col-auto col-form-label"
+                      >Tlf:</label
+                    >
+                    <div class="col-auto">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="show-phone-family"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="form-group row">
+                    <label
+                      for="show-checkindate-family"
+                      class="col-auto col-form-label"
+                      >Check in:</label
+                    >
+                    <div class="col-auto">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="show-checkindate-family"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col d-flex align-items-center">
+                  <span class="align-text-bottom pr-3"
+                    >Habitaciones ocupadas:</span
+                  >
+                  <ul
+                    class="list-group list-group-horizontal-sm"
+                    id="show-family-rooms"
+                  ></ul>
+                </div>
+              </div>
+              <div class="form-group row">
+                <h4><i class="fas fa-user-friends"></i>Integrantes:</h4>
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Apellido</th>
+                      <th scope="col">Edad</th>
+                      <th scope="col">DNI</th>
+                    </tr>
+                  </thead>
+                  <tbody id="show-family-members"></tbody>
+                </table>
+              </div>
+            </form>
+          </section>
+          <section id="section-check-out" class="d-none">
+            <h2>Check-Out:</h2>
+            <form id="form-check-out">
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="check-out-id-family">Huésped:</label
+                  ><select
+                    id="check-out-id-family"
+                    form="form-check-out"
+                    class="form-control"
+                    required
+                  >
+                  </select>
+                </div>
+                <div class="form-group col-6">
+                  <label for="check-out-date">Fecha de salida:</label
+                  ><input
+                    type="date"
+                    id="check-out-date"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <input
+                  type="submit"
+                  value="Crear factura"
+                  class="btn btn-lg btn-warning"
+                />
+              </div>
+            </form>
+          </section>
+          <section id="section-print-bill" class="d-none">
+            <form>
+              <h3>Factura:</h3>
+              <div class="border border-secondary"></div>
+              <div class="row">
+                <div class="col-6 form-group border-secondary border-right">
+                  <h4>Datos del proveedor:</h4>
+                  <div class="row">
+                    <label for="" class="col col-form-label"
+                      >Razón social:</label
+                    ><input
+                      type="text"
+                      readonly
+                      value="Hotel Paco SL"
+                      class="form-control col-8"
+                    />
+                  </div>
+                  <div class="row mt-3">
+                    <label for="" class="col col-form-label">CIF:</label
+                    ><input
+                      type="text"
+                      readonly
+                      value="C123456789"
+                      class="form-control col-8"
+                    />
+                    <div class="col-12 mt-3">
+                      <label for="">Dirección:</label
+                      ><input
+                        type="text"
+                        readonly
+                        value="Cráter Humeante nº2, Alderaan"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 form-group border-secondary border-left">
+                  <h4>Datos del cliente:</h4>
+                  <div class="row">
+                    <label for="" class="col col-form-label">Nombre:</label
+                    ><input
+                      type="text"
+                      readonly
+                      id="bill-show-name"
+                      class="form-control col-8"
+                    />
+                  </div>
+                  <div class="row mt-3">
+                    <label for="" class="col col-form-label">Teléfono:</label
+                    ><input
+                      type="text"
+                      id="bill-show-tlf"
+                      readonly
+                      class="form-control col-8"
+                    />
+                    <div class="col-12 mt-3">
+                      <label for="">DNI</label
+                      ><input
+                        type="text"
+                        readonly
+                        id="bill-show-dni"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Concepto</th>
+                    <th scope="col" class="text-center">Habitación</th>
+                    <th scope="col" class="text-center">Precio/noche(€)</th>
+                    <th scope="col" class="text-center">nº noches</th>
+                    <th scope="col" class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="bill-table"></tbody>
+                <tfoot>
+                  <tr>
+                    <td scope="row" class="text-right" colspan="4">
+                      Base Imponible:
+                    </td>
+                    <td id="before-tax" class="text-right"></td>
+                  </tr>
+                  <tr>
+                    <td scope="row" class="text-right" colspan="4">
+                      IVA (21%)
+                    </td>
+                    <td id="tax" class="text-right">21</td>
+                  </tr>
+                  <tr>
+                    <td
+                      scope="row"
+                      class="text-right font-weight-bold"
+                      colspan="4"
+                    >
+                      TOTAL
+                    </td>
+                    <td
+                      id="after-tax"
+                      class="font-weight-bolder text-right"
+                    ></td>
+                  </tr>
+                </tfoot>
+              </table>
+              <button class="btn btn-warning font-weight-bold float-right">
+                <i class="fas fa-print pr-2"></i>Imprimir Factura
+              </button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/index.js" type="module"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,7 +1,10 @@
-function fillBill(family, rooms, duration) {
+function fillBill(family, rooms, duration, checkout) {
   const showName = document.querySelector("#bill-show-name");
   const showTlf = document.querySelector("#bill-show-tlf");
   const showDNI = document.querySelector("#bill-show-dni");
+  const showBillDate = document.querySelector("#show-checkout-date");
+
+  showBillDate.setAttribute("value", `${checkout}`);
 
   showName.setAttribute(
     "value",

@@ -285,7 +285,7 @@
                     <label for="room-105-checkbox">105</label>
                   </th>
                   <td id="room-105-capacity">1</td>
-                  <td id="room-105-price" class="text-center">50</td>
+                  <td id="room-105-price" class="text-center">30</td>
                   <td class="text-center">
                     <input
                       type="checkbox"
@@ -360,7 +360,7 @@
                     <label for="room-205-checkbox">205</label>
                   </th>
                   <td id="room-205-capacity">1</td>
-                  <td id="room-205-price" class="text-center">50</td>
+                  <td id="room-205-price" class="text-center">30</td>
                   <td class="text-center">
                     <input
                       type="checkbox"
@@ -373,20 +373,24 @@
               </tbody>
             </table>
             <div class="row">
-              <div class="col-4 d-flex">
-                <p class="mr-3">Número de huéspedes:</p>
-                <p id="family-total"></p>
+              <div class="col-7 d-flex mb-2">
+                <span class="mr-3 font-weight-bold">Número de huéspedes:</span>
+                <span id="family-total"></span>
               </div>
-              <div class="col-4 d-flex">
-                <p class="mr-3">Camas asignadas:</p>
-                <p id="assigned-beds"></p>
+              <div class="col-7 d-flex mb-2">
+                <span class="mr-3 font-weight-bold">Camas asignadas:</span>
+                <span id="assigned-beds"></span>
               </div>
-              <div class="col-4 d-flex">
-                <p class="mr-3">Huéspedes sin cama asignada:</p>
-                <p id="members-left-to-room"></p>
+              <div
+                class="d-none col-4 border border-warning align-items-center"
+              >
+                <span class="mr-3 font-weight-bold"
+                  >Huéspedes sin cama asignada:</span
+                >
+                <span id="members-left-to-room"></span>
               </div>
             </div>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center align-items-center">
               <button
                 id="finish-check-in"
                 class="btn btn-lg btn-success"
@@ -580,7 +584,32 @@
                   </div>
                 </div>
               </div>
+              <div class="form-row mt-3 mb-5">
+                <div class="col-4">
+                  <div class="form-row">
+                    <label for="" class="col-form-label">Nº Factura</label
+                    ><input
+                      type="text"
+                      class="form-control col-6"
+                      readonly
+                      value="N.FR/4561"
+                    />
+                  </div>
+                </div>
 
+                <div class="col-4">
+                  <div class="form-row">
+                    <label for="" class="col-form-label"
+                      >Fecha de factura:</label
+                    ><input
+                      type="text"
+                      class="form-control col-6"
+                      readonly
+                      id="show-checkout-date"
+                    />
+                  </div>
+                </div>
+              </div>
               <table class="table">
                 <thead class="thead-light">
                   <tr>
@@ -620,10 +649,10 @@
                   </tr>
                 </tfoot>
               </table>
-              <button class="btn btn-warning font-weight-bold float-right">
-                <i class="fas fa-print pr-2"></i>Imprimir Factura
-              </button>
             </form>
+            <button class="btn btn-warning font-weight-bold float-right">
+              <i class="fas fa-print pr-2"></i>Imprimir Factura
+            </button>
           </section>
         </div>
       </div>

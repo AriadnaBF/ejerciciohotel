@@ -251,15 +251,39 @@ const initCheckOut = () => {
       }
     });
 
-    console.log(roomsToEmpty);
-
     const dateofCheckIn = familyToCheckOut.checkInDate;
     const checkOutDate = document.querySelector("#check-out-date");
     const dateofCheckOut = dateToNumber(checkOutDate.value);
 
     const durationOfStay = calculateStay(dateofCheckIn, dateofCheckOut);
 
-    fillBill(familyToCheckOut, roomsToEmpty, durationOfStay);
+    fillBill(
+      familyToCheckOut,
+      roomsToEmpty,
+      durationOfStay,
+      checkOutDate.value
+    );
+
+    const indexOfFamily = store.guests.findIndex((value) => {
+      if (value.idFamily == getFamilyId) {
+        console.log("aracola");
+        return value;
+      }
+    });
+
+    console.log(getFamilyId);
+    console.log(indexOfFamily);
+
+    store.rooms.forEach((value) => {
+      if (value.guest == getFamilyId) {
+        value.guest = "";
+        value.avaliable = true;
+        console.log("hola!");
+      }
+    });
+
+    console.log(store.rooms);
+    store.guests.splice(indexOfFamily, "1");
 
     const sectionCheckOut = document.querySelector("#section-check-out");
     const sectionPrintBill = document.querySelector("#section-print-bill");

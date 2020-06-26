@@ -1,6 +1,7 @@
 import { showAssignedBeds } from "./showassignedbeds.js";
 
 function checkboxRoom(checkBox, familyMembers, surplus) {
+  const showMembers = document.querySelector("#family-total");
   const membersLeft = document.querySelector("#members-left-to-room");
   const roomCapacity = document.querySelector(
     `#room-${checkBox.value}-capacity`
@@ -20,24 +21,24 @@ function checkboxRoom(checkBox, familyMembers, surplus) {
       const noOfAssignedfBeds = parseInt(showassignedbeds.innerHTML);
 
       if (noOfAssignedfBeds > familyMembers) {
-        // membersLeft.innerHTML = 0;
+        membersLeft.innerHTML = 0;
         console.log("hola");
       }
 
       if (noOfAssignedfBeds < familyMembers) {
         const extraBeds = familyMembers - parseInt(showassignedbeds.innerHTML);
-        result = noOfMembers + roomCapacityNumber - extraBeds;
-        membersLeft.innerHTML = result;
-        console.log("caracola");
+        // result = noOfMembers + roomCapacityNumber - extraBeds;
+        // membersLeft.innerHTML = result;
+        // console.log("caracola");
       }
       showassignedbeds.innerHTML = showAssignedBeds();
     }
-    if (membersLeft.innerHTML == 0) {
+    if (showMembers.innerHTML <= showassignedbeds.innerHTML) {
       const registerFamily = document.querySelector("#finish-check-in");
       registerFamily.removeAttribute("disabled");
     } else {
       const registerFamily = document.querySelector("#finish-check-in");
-      registerFamily.setAttribute("disabled", "true");
+      registerFamily.setAttribute("disabled", "");
     }
   });
 }

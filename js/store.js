@@ -31,7 +31,7 @@ const store = {
     {
       idRoom: 105,
       capacity: 1,
-      price: 50,
+      price: 30,
       guest: "",
       avaliable: true,
     },
@@ -66,7 +66,7 @@ const store = {
     {
       idRoom: 205,
       capacity: 1,
-      price: 50,
+      price: 30,
       guest: "",
       avaliable: true,
     },

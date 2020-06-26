@@ -14,6 +14,7 @@ function fillBill(family, rooms, duration, checkout) {
   showDNI.setAttribute("value", `${family.idFamily}`);
 
   const billBody = document.querySelector("#bill-table");
+  billBody.innerHTML = "";
 
   rooms.forEach((value) => {
     billBody.insertAdjacentHTML(
@@ -43,7 +44,7 @@ function fillBill(family, rooms, duration, checkout) {
   totalBeforeTax.innerHTML = `${sumPriceRooms}€`;
 
   const taxMoney = document.querySelector("#tax");
-  const tax = sumPriceRooms * 0.21;
+  const tax = sumPriceRooms * 0.1;
   taxMoney.innerHTML = `${tax}€`;
 
   const totalAfterTax = document.querySelector("#after-tax");

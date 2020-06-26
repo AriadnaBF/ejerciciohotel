@@ -135,7 +135,7 @@ const initList = () => {
         `
     <tr class="table-success">
       <th scope="row" class="text-left">${value.idRoom}</th>
-      <td class="text-center">${value.capacity}</td>
+      <td class="text-center avaliable">${value.capacity}</td>
       <td class="text-center">${value.guest}</td>
       <td class="text-center"> <i class="fas fa-check text-success"></i> </td>
     </tr>
@@ -148,7 +148,7 @@ const initList = () => {
         `
   <tr class="table-danger">
     <th scope="row" class="text-left">${value.idRoom}</th>
-    <td class="text-center">${value.capacity}</td>
+    <td class="text-center occupied">${value.capacity}</td>
     <td class="text-center">${value.guest}</td>
     <td class="text-center"><i class="fas fa-times text-danger"></i></td>
   </tr>

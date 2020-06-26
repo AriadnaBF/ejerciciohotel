@@ -17,7 +17,6 @@ import {
   check205,
 } from "./checkboxqueries.js";
 import { checkboxRoom } from "./checkboxclick.js";
-import { showAssignedBeds } from "./showassignedbeds.js";
 import { switchSections } from "./switchsections.js";
 import { dateToNumber } from "./datetonumber.js";
 import { resetGuests } from "./resetguests.js";
@@ -62,18 +61,16 @@ const initCheckIn = () => {
 
     listAvaliableRooms();
 
-    let surplus = showAssignedBeds();
-
-    checkboxRoom(check101, familyCapacity, surplus);
-    checkboxRoom(check102, familyCapacity, surplus);
-    checkboxRoom(check103, familyCapacity, surplus);
-    checkboxRoom(check104, familyCapacity, surplus);
-    checkboxRoom(check105, familyCapacity, surplus);
-    checkboxRoom(check201, familyCapacity, surplus);
-    checkboxRoom(check202, familyCapacity, surplus);
-    checkboxRoom(check203, familyCapacity, surplus);
-    checkboxRoom(check204, familyCapacity, surplus);
-    checkboxRoom(check205, familyCapacity, surplus);
+    checkboxRoom(check101, familyCapacity);
+    checkboxRoom(check102, familyCapacity);
+    checkboxRoom(check103, familyCapacity);
+    checkboxRoom(check104, familyCapacity);
+    checkboxRoom(check105, familyCapacity);
+    checkboxRoom(check201, familyCapacity);
+    checkboxRoom(check202, familyCapacity);
+    checkboxRoom(check203, familyCapacity);
+    checkboxRoom(check204, familyCapacity);
+    checkboxRoom(check205, familyCapacity);
   });
 
   const buttonRegister = document.querySelector("#finish-check-in");

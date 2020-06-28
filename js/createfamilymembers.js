@@ -1,6 +1,6 @@
 import { Guest } from "./Guest.js";
 
-function formFamily(noOfMembers) {
+function createFamilyMembers(noOfMembers) {
   let family = [];
 
   for (let i = 0; i < noOfMembers; i++) {
@@ -22,4 +22,4 @@ function formFamily(noOfMembers) {
   return family;
 }
 
-export { formFamily };
+export { createFamilyMembers };

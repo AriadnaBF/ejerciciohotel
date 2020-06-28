@@ -21,7 +21,7 @@
     <div class="container">
       <div
         class="modal fade"
-        id="modal1"
+        id="modalcapacity"
         tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
@@ -30,7 +30,10 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Éxito</h5>
+              <h5 class="modal-title" id="modalcapacityLabel">
+                <i class="fas fa-exclamation-triangle text-danger mr-2"></i
+                >Error en Check-in
+              </h5>
               <button
                 type="button"
                 class="close"
@@ -41,12 +44,82 @@
               </button>
             </div>
             <div class="modal-body">
-              Check-in realizado con éxito
+              No hay plazas disponibles para tantos huéspedes.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="modalprint"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalprintLabel">
+                <i class="fas fa-exclamation-triangle text-danger mr-2"></i
+                >Error impresión
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              No se ha encontrado impresora. Consulte con el tipo de IT.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="modal1"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                <i class="fas fa-thumbs-up text-success mr-2"></i>Check in
+                realizado con éxito
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Los huéspedes han sido asignados a sus habitaciones.
             </div>
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-success"
                 data-dismiss="modal"
               >
                 Aceptar
@@ -82,7 +155,7 @@
               </button>
               <button
                 id="button-to-change-rooms"
-                class="btn btn-info inactive text-left"
+                class="btn btn-info inactive text-left d-none"
                 disabled
               >
                 Cambio habitación
@@ -93,6 +166,18 @@
         <div class="col-10">
           <section id="section-room-list" class="d-none">
             <h2 class="mb-5">Listado de habitaciones:</h2>
+            <div class="d-flex justify-content-around mb-4">
+              <div>
+                <span class="font-weight-bold mr-3"
+                  ><i class="fas fa-hotel mr-3"></i>Hab. disponibles:</span
+                ><span id="list-all-rooms-avalible"></span>
+              </div>
+              <div>
+                <span class="font-weight-bold mr-3"
+                  ><i class="fas fa-bed mr-2"></i> Camas disponibles:</span
+                ><span id="list-all-beds-avaliable"></span>
+              </div>
+            </div>
             <table id="table-all-rooms" class="table table-small">
               <thead>
                 <th class="text-left">Id.</th>
@@ -174,6 +259,8 @@
                         id="family-tlf"
                         placeholder="999 12 34 56"
                         class="form-control"
+                        min="111111111"
+                        max="999999999"
                         required
                       />
                     </div>
@@ -199,7 +286,21 @@
             </form>
           </section>
           <section id="section-assign-room" class="d-none">
-            <h2 class="mb-2">Seleccionar habitaciones:</h2>
+            <h2 class="mb-4">Seleccionar habitaciones:</h2>
+            <div class="d-flex justify-content-around">
+              <div class="d-flex mb-2">
+                <span class="mr-3 font-weight-bold color-info">
+                  <i class="fas fa-users mr-2"></i> Número de huéspedes:</span
+                >
+                <span id="family-total"></span>
+              </div>
+              <div class="d-flex mb-2">
+                <span class="mr-3 font-weight-bold color-info"
+                  ><i class="fas fa-bed mr-2"></i> Camas asignadas:</span
+                >
+                <span id="assigned-beds"></span>
+              </div>
+            </div>
             <table id="table-avaliable-rooms" class="table table-hover">
               <thead>
                 <th>Id.</th>
@@ -360,28 +461,6 @@
                 </tr>
               </tbody>
             </table>
-            <div class="row">
-              <div class="col-7 d-flex mb-2">
-                <span class="mr-3 font-weight-bold color-info"
-                  >Número de huéspedes:</span
-                >
-                <span id="family-total"></span>
-              </div>
-              <div class="col-7 d-flex mb-2">
-                <span class="mr-3 font-weight-bold color-info"
-                  >Camas asignadas:</span
-                >
-                <span id="assigned-beds"></span>
-              </div>
-              <div
-                class="d-none col-4 border border-warning align-items-center"
-              >
-                <span class="mr-3 font-weight-bold"
-                  >Huéspedes sin cama asignada:</span
-                >
-                <span id="members-left-to-room"></span>
-              </div>
-            </div>
             <div class="d-flex justify-content-center align-items-center">
               <button
                 id="finish-check-in"
@@ -400,7 +479,7 @@
                 <div class="col-auto">
                   <div class="form-group row">
                     <label for="show-id-family" class="col-auto col-form-label"
-                      >Id. :</label
+                      >Id. Huésped:</label
                     >
                     <div class="col-auto">
                       <input
@@ -481,7 +560,7 @@
             <form id="form-check-out">
               <div class="row">
                 <div class="form-group col-6">
-                  <label for="check-out-id-family">Huésped:</label
+                  <label for="check-out-id-family">Id. Huésped:</label
                   ><select
                     id="check-out-id-family"
                     form="form-check-out"
@@ -615,16 +694,14 @@
                 <tbody id="bill-table"></tbody>
                 <tfoot>
                   <tr>
-                    <td scope="row" class="text-right" colspan="4">
+                    <td
+                      scope="row"
+                      class="text-right font-weight-bold"
+                      colspan="4"
+                    >
                       Base Imponible:
                     </td>
                     <td id="before-tax" class="text-right"></td>
-                  </tr>
-                  <tr>
-                    <td scope="row" class="text-right" colspan="4">
-                      IVA (10%)
-                    </td>
-                    <td id="tax" class="text-right">21</td>
                   </tr>
                   <tr>
                     <td
@@ -632,7 +709,17 @@
                       class="text-right font-weight-bold"
                       colspan="4"
                     >
-                      TOTAL
+                      IVA (10%)
+                    </td>
+                    <td id="tax" class="text-right">21</td>
+                  </tr>
+                  <tr>
+                    <td
+                      scope="row"
+                      class="text-right font-weight-bolder"
+                      colspan="4"
+                    >
+                      TOTAL:
                     </td>
                     <td
                       id="after-tax"
@@ -642,9 +729,22 @@
                 </tfoot>
               </table>
             </form>
-            <button class="btn btn-warning font-weight-bold float-right">
+            <button
+              class="btn btn-warning font-weight-bold float-right"
+              data-toggle="modal"
+              data-target="#modalprint"
+            >
               <i class="fas fa-print pr-2"></i>Imprimir Factura
             </button>
+          </section>
+
+          <section id="section-change-rooms" class="d-none">
+            <h2>Cambiar habitación</h2>
+
+            <form action="" id="form-change-rooms">
+              <fieldset></fieldset>
+              <input type="submit" />
+            </form>
           </section>
         </div>
       </div>

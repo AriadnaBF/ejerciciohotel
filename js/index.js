@@ -1,8 +1,8 @@
 import { store } from "./store.js";
-import { formFamily } from "./formfamily.js";
+import { createFamilyMembers } from "./createfamilymembers.js";
 import { checkCapacity } from "./checkcapacity.js";
-import { Family } from "./Family.js";
-import { calculateFamilyCapacity } from "./auxiliar/familycapacity.js";
+import { calculateFamilyCapacity } from "./familycapacity.js";
+import { createNewFamily } from "./createnewfamily.js";
 import { listAvaliableRooms } from "./listavaliablerooms.js";
 import {
   check101,
@@ -19,9 +19,11 @@ import {
 import { checkboxRoom } from "./checkboxclick.js";
 import { switchSections } from "./switchsections.js";
 import { dateToNumber } from "./datetonumber.js";
+import { getChosenRooms } from "./getchosenrooms.js";
 import { resetGuests } from "./resetguests.js";
 import { resetCheckboxes } from "./resetcheckbox.js";
 import { removeAvaliableList } from "./removeavaliablelist.js";
+import { createRoomList } from "./createroomlist.js";
 import { showFamilyData } from "./showfamilydata.js";
 import { calculateStay } from "./calculatestay.js";
 import { fillBill } from "./fillbill.js";
@@ -32,18 +34,14 @@ const initCheckIn = () => {
     event.preventDefault();
 
     const noOfGuests = document.querySelectorAll(".guest-name").length;
-    const familyMembers = formFamily(noOfGuests);
+    const familyMembers = createFamilyMembers(noOfGuests);
     const roomForEveryone = checkCapacity(familyMembers);
     if (!roomForEveryone) {
-      alert("No hay plazas para todos");
+      $("#modalcapacity").modal();
       return;
     }
-    const phone = document.querySelector("#family-tlf");
 
-    const checkInDate = document.querySelector("#check-in-date");
-    const dateInNumber = dateToNumber(checkInDate.value);
-
-    const family = new Family(familyMembers, phone.value, dateInNumber);
+    const family = createNewFamily(familyMembers);
     store.guests.push(family);
 
     const sectionCheckIn = document.querySelector("#section-check-in");
@@ -51,49 +49,36 @@ const initCheckIn = () => {
 
     sectionCheckIn.classList.replace("active-section", "d-none");
     sectionAssignRoom.classList.replace("d-none", "active-section");
-    const membersLeft = document.querySelector("#members-left-to-room");
+
     const showMembers = document.querySelector("#family-total");
 
     const familyCapacity = calculateFamilyCapacity(familyMembers);
     showMembers.innerHTML = familyCapacity;
-    membersLeft.innerHTML = familyCapacity;
-    console.log(familyCapacity);
 
     listAvaliableRooms();
 
-    checkboxRoom(check101, familyCapacity);
-    checkboxRoom(check102, familyCapacity);
-    checkboxRoom(check103, familyCapacity);
-    checkboxRoom(check104, familyCapacity);
-    checkboxRoom(check105, familyCapacity);
-    checkboxRoom(check201, familyCapacity);
-    checkboxRoom(check202, familyCapacity);
-    checkboxRoom(check203, familyCapacity);
-    checkboxRoom(check204, familyCapacity);
-    checkboxRoom(check205, familyCapacity);
+    checkboxRoom(check101);
+    checkboxRoom(check102);
+    checkboxRoom(check103);
+    checkboxRoom(check104);
+    checkboxRoom(check105);
+    checkboxRoom(check201);
+    checkboxRoom(check202);
+    checkboxRoom(check203);
+    checkboxRoom(check204);
+    checkboxRoom(check205);
   });
 
   const buttonRegister = document.querySelector("#finish-check-in");
 
   buttonRegister.addEventListener("click", () => {
-    const allCheckboxes = document.querySelectorAll(".check-rooms");
-    const chosenRooms = [];
-
-    allCheckboxes.forEach((checkbox) => {
-      if (checkbox.checked) {
-        chosenRooms.push(checkbox.value);
-      }
-    });
+    const chosenRooms = getChosenRooms();
 
     const family = store.guests.find((value) => {
       if (value.numRoom === "toAssign") {
         return value;
       }
     });
-
-    console.log(store.guests);
-
-    console.log(chosenRooms);
 
     family.numRoom = chosenRooms;
 
@@ -128,35 +113,30 @@ const initList = () => {
   const showList = document.querySelector("#all-rooms");
   showList.innerHTML = "";
 
-  store.rooms.forEach((value) => {
-    if (value.avaliable) {
-      showList.insertAdjacentHTML(
-        "beforeend",
-        `
-    <tr class="table-success">
-      <th scope="row" class="text-left">${value.idRoom}</th>
-      <td class="text-center avaliable">${value.capacity}</td>
-      <td class="text-center">${value.guest}</td>
-      <td class="text-center"> <i class="fas fa-check text-success"></i> </td>
-    </tr>
-    
-    `
-      );
-    } else {
-      showList.insertAdjacentHTML(
-        "beforeend",
-        `
-  <tr class="table-danger">
-    <th scope="row" class="text-left">${value.idRoom}</th>
-    <td class="text-center occupied">${value.capacity}</td>
-    <td class="text-center">${value.guest}</td>
-    <td class="text-center"><i class="fas fa-times text-danger"></i></td>
-  </tr>
-  
-  `
-      );
-    }
+  createRoomList(showList);
+
+  const showAllAvaliableRooms = document.querySelector(
+    "#list-all-rooms-avalible"
+  );
+
+  const getAvaliableRooms = document.querySelectorAll("tr.avaliable-room");
+  console.log(getAvaliableRooms);
+  const noOfAvaliableRooms = getAvaliableRooms.length;
+
+  showAllAvaliableRooms.innerHTML = noOfAvaliableRooms;
+
+  const showAllAvaliableBeds = document.querySelector(
+    "#list-all-beds-avaliable"
+  );
+  const getAvaliableBeds = document.querySelectorAll(".avaliable-beds");
+  let noOfAvaliableBeds = 0;
+
+  getAvaliableBeds.forEach((item) => {
+    const noOfBedsInRoom = parseInt(item.innerHTML);
+    noOfAvaliableBeds = noOfAvaliableBeds + noOfBedsInRoom;
   });
+
+  showAllAvaliableBeds.innerHTML = noOfAvaliableBeds;
 };
 
 const addNewGuest = () => {
@@ -268,18 +248,13 @@ const initCheckOut = () => {
       }
     });
 
-    console.log(getFamilyId);
-    console.log(indexOfFamily);
-
     store.rooms.forEach((value) => {
       if (value.guest == getFamilyId) {
         value.guest = "";
         value.avaliable = true;
-        console.log("hola!");
       }
     });
 
-    console.log(store.rooms);
     store.guests.splice(indexOfFamily, "1");
 
     const sectionCheckOut = document.querySelector("#section-check-out");

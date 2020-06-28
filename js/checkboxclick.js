@@ -1,38 +1,12 @@
-import { showAssignedBeds } from "./showassignedbeds.js";
+import { bedsUsed } from "./bedsused.js";
 
-function checkboxRoom(checkBox, familyMembers, surplus) {
+function checkboxRoom(checkBox) {
   const showMembers = document.querySelector("#family-total");
-  const membersLeft = document.querySelector("#members-left-to-room");
-  const roomCapacity = document.querySelector(
-    `#room-${checkBox.value}-capacity`
-  );
   const showassignedbeds = document.querySelector("#assigned-beds");
-  const roomCapacityNumber = parseInt(roomCapacity.innerHTML);
-  let result = 0;
 
   checkBox.addEventListener("click", () => {
-    let noOfMembers = parseInt(membersLeft.innerHTML);
+    showassignedbeds.innerHTML = bedsUsed();
 
-    if (checkBox.checked) {
-      result = noOfMembers - roomCapacityNumber;
-      membersLeft.innerHTML = Math.max(result, 0);
-      showassignedbeds.innerHTML = showAssignedBeds();
-    } else {
-      const noOfAssignedfBeds = parseInt(showassignedbeds.innerHTML);
-
-      if (noOfAssignedfBeds > familyMembers) {
-        membersLeft.innerHTML = 0;
-        console.log("hola");
-      }
-
-      if (noOfAssignedfBeds < familyMembers) {
-        const extraBeds = familyMembers - parseInt(showassignedbeds.innerHTML);
-        // result = noOfMembers + roomCapacityNumber - extraBeds;
-        // membersLeft.innerHTML = result;
-        // console.log("caracola");
-      }
-      showassignedbeds.innerHTML = showAssignedBeds();
-    }
     if (showMembers.innerHTML <= showassignedbeds.innerHTML) {
       const registerFamily = document.querySelector("#finish-check-in");
       registerFamily.removeAttribute("disabled");

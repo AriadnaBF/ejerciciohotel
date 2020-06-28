@@ -1,5 +1,5 @@
-import { currentCapacity } from "./auxiliar/currentcapacity.js";
-import { calculateFamilyCapacity } from "./auxiliar/familycapacity.js";
+import { currentCapacity } from "./currentcapacity.js";
+import { calculateFamilyCapacity } from "./familycapacity.js";
 
 function checkCapacity(family) {
   const hotelCapacity = currentCapacity();

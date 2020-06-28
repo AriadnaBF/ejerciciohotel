@@ -1,4 +1,4 @@
-import { store } from "../store.js";
+import { store } from "./store.js";
 
 function currentCapacity() {
   const result = store.rooms.reduce((prev, next) => {
